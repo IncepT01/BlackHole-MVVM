@@ -1,0 +1,87 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:BlackHole.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="BlackHole.Views.MainView"
+             x:DataType="vm:GameViewModel">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!-- Top Buttons -->
+		<WrapPanel Grid.Row="0" Orientation="Horizontal">
+			<Button Command="{Binding NewGameCommand5x5}">Új játék 5x5</Button>
+			<Button Command="{Binding NewGameCommand7x7}">Új játék 7x7</Button>
+			<Button Command="{Binding NewGameCommand9x9}">Új játék 9x9</Button>
+			<Button Command="{Binding LoadGameCommand}">Játék betöltése</Button>
+			<Button Command="{Binding SaveGameCommand}">Játék mentése</Button>
+			<!-- Movement -->
+			<Button
+				Command="{Binding MoveCommand}"
+				CommandParameter="left"
+				IsVisible="False"
+				HotKey="A" />
+			<Button
+				Command="{Binding MoveCommand}"
+				CommandParameter="right"
+				IsVisible="False"
+				HotKey="D" />
+			<Button
+				Command="{Binding MoveCommand}"
+				CommandParameter="up"
+				IsVisible="False"
+				HotKey="W" />
+			<Button
+				Command="{Binding MoveCommand}"
+				CommandParameter="down"
+				IsVisible="False"
+				HotKey="S" />
+
+			<!-- Movement 	
+			<Window.InputBindings>
+				<KeyBinding Command="{Binding KeyDownCommand}" CommandParameter="A" Key="A"/>
+				<KeyBinding Command="{Binding KeyDownCommand}" CommandParameter="D" Key="D"/>
+				<KeyBinding Command="{Binding KeyDownCommand}" CommandParameter="W" Key="W"/>
+				<KeyBinding Command="{Binding KeyDownCommand}" CommandParameter="S" Key="S"/>
+			</Window.InputBindings>
+			-->
+		
+		</WrapPanel>
+
+		<!-- Main Game View -->
+		<Viewbox Grid.Row="1">
+			<ItemsControl Width="900" Height="900" ItemsSource="{Binding Fields}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<UniformGrid Rows="{Binding TableSize}" Columns="{Binding TableSize}" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Button Command="{Binding TileClickedCommand}"
+                                CommandParameter="{Binding XY}"
+                                Background="{Binding Colour}"
+                                Width="100" Height="100"
+                                Focusable="False" FontSize="36" FontWeight="Bold"
+                                HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                                BorderThickness="1" BorderBrush="Black"
+                                Classes="Game" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Viewbox>
+
+		<!-- Bottom Border -->
+		<Border Grid.Row="2" BorderBrush="Black" BorderThickness="0 1 0 0">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding CurrentPlayer}" />
+			</StackPanel>
+		</Border>
+	</Grid>
+</UserControl>
